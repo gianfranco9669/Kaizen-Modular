@@ -1,0 +1,20 @@
+<section class="panel">
+  <h2>Planes</h2>
+  <form class="grilla" [formGroup]="formulario" (ngSubmit)="crear()">
+    <input formControlName="nombre" placeholder="Nombre del plan">
+    <input formControlName="descripcion" placeholder="Descripción">
+    <input formControlName="precio" type="number" placeholder="Precio">
+    <input formControlName="duracionDias" type="number" placeholder="Duración (días)">
+    <label class="switch"><input type="checkbox" formControlName="permiteAcceso"> Permite acceso</label>
+    <button type="submit">Guardar plan</button>
+  </form>
+
+  <table>
+    <thead><tr><th>Nombre</th><th>Precio</th><th>Días</th><th>Acceso</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let plan of planes">
+        <td>{{ plan.nombre }}</td><td>{{ plan.precio | currency:'ARS' }}</td><td>{{ plan.duracionDias }}</td><td>{{ plan.permiteAcceso ? 'Sí' : 'No' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

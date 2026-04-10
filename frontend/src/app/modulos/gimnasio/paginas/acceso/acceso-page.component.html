@@ -1,0 +1,12 @@
+<section class="panel">
+  <h2>Control de acceso</h2>
+  <form class="grilla" [formGroup]="formulario" (ngSubmit)="validar()">
+    <input formControlName="socioId" placeholder="ID de socio">
+    <button type="submit">Validar ingreso</button>
+  </form>
+
+  <article class="resultado" *ngIf="resultado">
+    <h3>Resultado: {{ resultado }}</h3>
+    <p>{{ motivo }}</p>
+  </article>
+</section>

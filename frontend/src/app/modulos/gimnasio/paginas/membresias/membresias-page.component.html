@@ -1,0 +1,25 @@
+<section class="panel">
+  <h2>Membresías</h2>
+  <form class="grilla" [formGroup]="formulario" (ngSubmit)="crear()">
+    <select formControlName="socioId">
+      <option value="">Socio</option>
+      <option *ngFor="let s of socios" [value]="s.id">{{ s.numeroSocio }} · {{ s.apellido }}</option>
+    </select>
+    <select formControlName="planId">
+      <option value="">Plan</option>
+      <option *ngFor="let p of planes" [value]="p.id">{{ p.nombre }}</option>
+    </select>
+    <input formControlName="fechaInicio" type="date">
+    <input formControlName="montoAdeudado" type="number" placeholder="Monto adeudado">
+    <button type="submit">Generar membresía</button>
+  </form>
+
+  <table>
+    <thead><tr><th>Socio</th><th>Plan</th><th>Vigencia</th><th>Deuda</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let m of membresias">
+        <td>{{ m.socioId }}</td><td>{{ m.planId }}</td><td>{{ m.estadoVigencia }}</td><td>{{ m.estadoDeuda }} ({{ m.montoAdeudado | currency:'ARS' }})</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

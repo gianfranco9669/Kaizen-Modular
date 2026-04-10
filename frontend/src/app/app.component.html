@@ -1,0 +1,19 @@
+<div class="layout">
+  <aside class="sidebar">
+    <div class="marca">
+      <h1>ARDESOFT · Kaizen</h1>
+      <small>Plataforma modular</small>
+    </div>
+    <nav>
+      <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Panel</a>
+      <a routerLink="/gimnasio/socios" routerLinkActive="activo">Gimnasio · Socios</a>
+      <a routerLink="/gimnasio/planes" routerLinkActive="activo">Gimnasio · Planes</a>
+      <a routerLink="/gimnasio/membresias" routerLinkActive="activo">Gimnasio · Membresías</a>
+      <a routerLink="/gimnasio/acceso" routerLinkActive="activo">Gimnasio · Accesos</a>
+    </nav>
+  </aside>
+
+  <main class="contenido">
+    <router-outlet></router-outlet>
+  </main>
+</div>
