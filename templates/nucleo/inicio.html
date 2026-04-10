@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Panel General | Kaizen{% endblock %}
+
+{% block contenido %}
+<section class="panel-premium">
+  <div class="panel-encabezado">
+    <h1>Panel general</h1>
+    <p>Vista inicial con indicadores del primer corte funcional (Gimnasio + Administración).</p>
+  </div>
+
+  <div class="kpi-grid">
+    <article class="kpi-card">
+      <h3>Socios totales</h3>
+      <strong>{{ cantidad_socios }}</strong>
+    </article>
+    <article class="kpi-card">
+      <h3>Membresías vigentes</h3>
+      <strong>{{ membresias_vigentes }}</strong>
+    </article>
+    <article class="kpi-card">
+      <h3>Membresías con deuda</h3>
+      <strong>{{ membresias_con_deuda }}</strong>
+    </article>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Nuevo Plan | Gimnasio{% endblock %}
+
+{% block contenido %}
+<section class="panel-premium">
+  <div class="panel-encabezado">
+    <h1>Alta de plan</h1>
+    <p>Configuración comercial para membresías y control de acceso.</p>
+  </div>
+
+  <form method="post" class="form-premium">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Guardar plan</button>
+  </form>
+</section>
+{% endblock %}

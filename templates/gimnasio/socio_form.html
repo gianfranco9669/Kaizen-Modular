@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Nuevo Socio | Gimnasio{% endblock %}
+
+{% block contenido %}
+<section class="panel-premium">
+  <div class="panel-encabezado">
+    <h1>Alta de socio</h1>
+    <p>Registro de persona + datos operativos del socio.</p>
+  </div>
+
+  <form method="post" class="form-premium">
+    {% csrf_token %}
+    <h3>Datos personales</h3>
+    {{ persona_form.as_p }}
+    <h3>Datos de socio</h3>
+    {{ socio_form.as_p }}
+    <button type="submit" class="btn btn-primary">Guardar socio</button>
+  </form>
+</section>
+{% endblock %}

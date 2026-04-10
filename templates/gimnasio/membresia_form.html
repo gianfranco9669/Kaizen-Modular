@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Nueva Membresía | Gimnasio{% endblock %}
+
+{% block contenido %}
+<section class="panel-premium">
+  <div class="panel-encabezado">
+    <h1>Alta de membresía</h1>
+    <p>Al guardar, se registra impacto comercial mínimo en Administración.</p>
+  </div>
+
+  <form method="post" class="form-premium">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Guardar membresía</button>
+  </form>
+</section>
+{% endblock %}

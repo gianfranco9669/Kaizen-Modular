@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Impacto Comercial | Administración{% endblock %}
+
+{% block contenido %}
+<section class="panel-premium">
+  <div class="panel-encabezado">
+    <h1>Impacto comercial consolidado</h1>
+    <p>Registro inicial de impactos provenientes de la operación de módulos de negocio.</p>
+  </div>
+
+  <div class="tabla-contenedor">
+    <table class="tabla-premium">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Origen</th>
+          <th>Operación</th>
+          <th>Referencia</th>
+          <th>Descripción</th>
+          <th>Monto</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for registro in registros %}
+        <tr>
+          <td>{{ registro.fecha_registro|date:'d/m/Y H:i' }}</td>
+          <td>{{ registro.get_origen_display }}</td>
+          <td>{{ registro.get_operacion_display }}</td>
+          <td>{{ registro.referencia_externa }}</td>
+          <td>{{ registro.descripcion }}</td>
+          <td>${{ registro.monto }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6">No hay impactos registrados aún.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
