@@ -12,7 +12,7 @@ public class ServicioImpactoAdministrativo
         _repositorio = repositorio;
     }
 
-    public async Task RegistrarImpactoMembresiaAsync(Guid membresiaId, Guid socioId, decimal monto, CancellationToken cancellationToken)
+    public Task RegistrarImpactoMembresiaAsync(Guid membresiaId, Guid socioId, decimal monto, CancellationToken cancellationToken)
     {
         var impacto = new ImpactoComercial
         {
@@ -24,7 +24,9 @@ public class ServicioImpactoAdministrativo
             FechaOperacionUtc = DateTime.UtcNow
         };
 
-        await _repositorio.RegistrarImpactoAsync(impacto, cancellationToken);
-        await _repositorio.GuardarCambiosAsync(cancellationToken);
+        return _repositorio.RegistrarImpactoAsync(impacto, cancellationToken);
     }
+
+    public Task<List<ImpactoComercial>> ObtenerImpactosAsync(CancellationToken cancellationToken) =>
+        _repositorio.ObtenerImpactosAsync(cancellationToken);
 }

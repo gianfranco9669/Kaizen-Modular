@@ -2,6 +2,7 @@ using Kaizen.Aplicacion.Administracion.Interfaces;
 using Kaizen.Aplicacion.Administracion.Servicios;
 using Kaizen.Aplicacion.Gimnasio.Interfaces;
 using Kaizen.Aplicacion.Gimnasio.Servicios;
+using Kaizen.Api.Middlewares;
 using Kaizen.Infraestructura.Administracion;
 using Kaizen.Infraestructura.Gimnasio;
 using Kaizen.Infraestructura.Persistencia;
@@ -37,6 +38,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<MiddlewareErroresHttp>();
 app.UseCors("frontend");
 app.UseHttpsRedirection();
 app.MapControllers();

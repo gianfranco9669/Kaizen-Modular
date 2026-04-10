@@ -1,0 +1,15 @@
+<section class="panel">
+  <h2>Administración · Impactos comerciales</h2>
+  <table>
+    <thead><tr><th>Fecha</th><th>Módulo</th><th>Operación</th><th>Referencia</th><th>Monto</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let i of impactos">
+        <td>{{ i.fechaOperacionUtc | date:'short' }}</td>
+        <td>{{ i.moduloOrigen }}</td>
+        <td>{{ i.tipoOperacion }}</td>
+        <td>{{ i.referenciaExterna }}</td>
+        <td>{{ i.monto | currency:'ARS' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

@@ -21,4 +21,6 @@ public interface IGimnasioRepositorio
 
     Task AgregarRegistroAccesoAsync(RegistroAcceso registroAcceso, CancellationToken cancellationToken);
     Task GuardarCambiosAsync(CancellationToken cancellationToken);
+
+    Task EjecutarEnTransaccionAsync(Func<CancellationToken, Task> operacion, CancellationToken cancellationToken);
 }

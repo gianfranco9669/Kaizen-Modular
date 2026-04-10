@@ -1,4 +1,5 @@
 using Kaizen.Aplicacion.Administracion.Servicios;
+using Kaizen.Aplicacion.Compartido;
 using Kaizen.Aplicacion.Gimnasio.Dto;
 using Kaizen.Aplicacion.Gimnasio.Interfaces;
 using Kaizen.Dominio.Gimnasio;
@@ -24,17 +25,14 @@ public class ServicioGimnasio
 
     public async Task<SocioDto> CrearSocioAsync(CrearSocioDto dto, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(dto.NumeroSocio)) throw new ArgumentException("Número de socio requerido.");
-        if (string.IsNullOrWhiteSpace(dto.Documento)) throw new ArgumentException("Documento requerido.");
-
         var socio = new Socio
         {
-            NumeroSocio = dto.NumeroSocio.Trim(),
-            Nombre = dto.Nombre.Trim(),
-            Apellido = dto.Apellido.Trim(),
-            Documento = dto.Documento.Trim(),
-            Correo = dto.Correo.Trim(),
-            Telefono = dto.Telefono.Trim(),
+            NumeroSocio = ValidadorEntrada.Requerido(dto.NumeroSocio, nameof(dto.NumeroSocio)),
+            Nombre = ValidadorEntrada.Requerido(dto.Nombre, nameof(dto.Nombre)),
+            Apellido = ValidadorEntrada.Requerido(dto.Apellido, nameof(dto.Apellido)),
+            Documento = ValidadorEntrada.Requerido(dto.Documento, nameof(dto.Documento)),
+            Correo = (dto.Correo ?? string.Empty).Trim(),
+            Telefono = (dto.Telefono ?? string.Empty).Trim(),
             Activo = true
         };
 
@@ -48,12 +46,12 @@ public class ServicioGimnasio
         var socio = await _repositorio.ObtenerSocioPorIdAsync(socioId, cancellationToken);
         if (socio is null) return null;
 
-        socio.NumeroSocio = dto.NumeroSocio.Trim();
-        socio.Nombre = dto.Nombre.Trim();
-        socio.Apellido = dto.Apellido.Trim();
-        socio.Documento = dto.Documento.Trim();
-        socio.Correo = dto.Correo.Trim();
-        socio.Telefono = dto.Telefono.Trim();
+        socio.NumeroSocio = ValidadorEntrada.Requerido(dto.NumeroSocio, nameof(dto.NumeroSocio));
+        socio.Nombre = ValidadorEntrada.Requerido(dto.Nombre, nameof(dto.Nombre));
+        socio.Apellido = ValidadorEntrada.Requerido(dto.Apellido, nameof(dto.Apellido));
+        socio.Documento = ValidadorEntrada.Requerido(dto.Documento, nameof(dto.Documento));
+        socio.Correo = (dto.Correo ?? string.Empty).Trim();
+        socio.Telefono = (dto.Telefono ?? string.Empty).Trim();
         socio.FechaActualizacionUtc = DateTime.UtcNow;
 
         await _repositorio.ActualizarSocioAsync(socio, cancellationToken);
@@ -69,15 +67,12 @@ public class ServicioGimnasio
 
     public async Task<PlanDto> CrearPlanAsync(CrearPlanDto dto, CancellationToken cancellationToken)
     {
-        if (dto.Precio <= 0) throw new ArgumentException("El precio debe ser mayor a cero.");
-        if (dto.DuracionDias <= 0) throw new ArgumentException("La duración debe ser mayor a cero.");
-
         var plan = new Plan
         {
-            Nombre = dto.Nombre.Trim(),
-            Descripcion = dto.Descripcion.Trim(),
-            Precio = dto.Precio,
-            DuracionDias = dto.DuracionDias,
+            Nombre = ValidadorEntrada.Requerido(dto.Nombre, nameof(dto.Nombre)),
+            Descripcion = (dto.Descripcion ?? string.Empty).Trim(),
+            Precio = ValidadorEntrada.MayorACero(dto.Precio, nameof(dto.Precio)),
+            DuracionDias = ValidadorEntrada.MayorACero(dto.DuracionDias, nameof(dto.DuracionDias)),
             PermiteAcceso = dto.PermiteAcceso,
             Activo = true
         };
@@ -92,10 +87,10 @@ public class ServicioGimnasio
         var plan = await _repositorio.ObtenerPlanPorIdAsync(planId, cancellationToken);
         if (plan is null) return null;
 
-        plan.Nombre = dto.Nombre.Trim();
-        plan.Descripcion = dto.Descripcion.Trim();
-        plan.Precio = dto.Precio;
-        plan.DuracionDias = dto.DuracionDias;
+        plan.Nombre = ValidadorEntrada.Requerido(dto.Nombre, nameof(dto.Nombre));
+        plan.Descripcion = (dto.Descripcion ?? string.Empty).Trim();
+        plan.Precio = ValidadorEntrada.MayorACero(dto.Precio, nameof(dto.Precio));
+        plan.DuracionDias = ValidadorEntrada.MayorACero(dto.DuracionDias, nameof(dto.DuracionDias));
         plan.PermiteAcceso = dto.PermiteAcceso;
         plan.FechaActualizacionUtc = DateTime.UtcNow;
 
@@ -112,11 +107,13 @@ public class ServicioGimnasio
 
     public async Task<MembresiaDto> CrearMembresiaAsync(CrearMembresiaDto dto, CancellationToken cancellationToken)
     {
+        if (dto.MontoAdeudado < 0) throw new ValidacionNegocioException("El monto adeudado no puede ser negativo.");
+
         var socio = await _repositorio.ObtenerSocioPorIdAsync(dto.SocioId, cancellationToken)
-            ?? throw new ArgumentException("Socio no encontrado.");
+            ?? throw new ValidacionNegocioException("Socio no encontrado.", 404);
 
         var plan = await _repositorio.ObtenerPlanPorIdAsync(dto.PlanId, cancellationToken)
-            ?? throw new ArgumentException("Plan no encontrado.");
+            ?? throw new ValidacionNegocioException("Plan no encontrado.", 404);
 
         var fechaFin = dto.FechaInicio.AddDays(plan.DuracionDias);
         var estadoDeuda = dto.MontoAdeudado > 0 ? "pendiente" : "al_dia";
@@ -133,15 +130,17 @@ public class ServicioGimnasio
             MontoAdeudado = dto.MontoAdeudado
         };
 
-        await _repositorio.AgregarMembresiaAsync(membresia, cancellationToken);
-        await _repositorio.GuardarCambiosAsync(cancellationToken);
-
-        await _servicioImpactoAdministrativo.RegistrarImpactoMembresiaAsync(
-            membresia.Id,
-            membresia.SocioId,
-            membresia.MontoTotal,
-            cancellationToken
-        );
+        await _repositorio.EjecutarEnTransaccionAsync(async ct =>
+        {
+            await _repositorio.AgregarMembresiaAsync(membresia, ct);
+            await _servicioImpactoAdministrativo.RegistrarImpactoMembresiaAsync(
+                membresia.Id,
+                membresia.SocioId,
+                membresia.MontoTotal,
+                ct
+            );
+            await _repositorio.GuardarCambiosAsync(ct);
+        }, cancellationToken);
 
         return MapearMembresia(membresia);
     }
@@ -149,12 +148,11 @@ public class ServicioGimnasio
     public async Task<ResultadoAccesoDto> ValidarYRegistrarAccesoAsync(Guid socioId, CancellationToken cancellationToken)
     {
         var socio = await _repositorio.ObtenerSocioPorIdAsync(socioId, cancellationToken)
-            ?? throw new ArgumentException("Socio no encontrado.");
+            ?? throw new ValidacionNegocioException("Socio no encontrado.", 404);
 
-        var membresia = socio.Membresias
-            .OrderByDescending(m => m.FechaFin)
-            .FirstOrDefault();
+        var membresia = socio.Membresias.OrderByDescending(m => m.FechaFin).FirstOrDefault();
 
+        var hoy = DateOnly.FromDateTime(DateTime.UtcNow);
         string resultado;
         string motivo;
 
@@ -163,10 +161,20 @@ public class ServicioGimnasio
             resultado = "bloqueado";
             motivo = "Sin membresía activa.";
         }
-        else if (membresia.FechaFin < DateOnly.FromDateTime(DateTime.UtcNow))
+        else if (membresia.FechaInicio > hoy)
+        {
+            resultado = "bloqueado";
+            motivo = "Membresía aún no vigente.";
+        }
+        else if (membresia.FechaFin < hoy)
         {
             resultado = "bloqueado";
             motivo = "Membresía vencida.";
+        }
+        else if (membresia.Plan is not null && !membresia.Plan.PermiteAcceso)
+        {
+            resultado = "bloqueado";
+            motivo = "El plan contratado no habilita ingreso.";
         }
         else if (membresia.EstadoDeuda is "pendiente" or "moroso" || membresia.MontoAdeudado > 0)
         {

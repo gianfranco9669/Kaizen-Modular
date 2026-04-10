@@ -18,7 +18,10 @@ public class GimnasioRepositorio : IGimnasioRepositorio
         _dbContext.Socios.AsNoTracking().OrderBy(s => s.Apellido).ToListAsync(cancellationToken);
 
     public Task<Socio?> ObtenerSocioPorIdAsync(Guid socioId, CancellationToken cancellationToken) =>
-        _dbContext.Socios.Include(s => s.Membresias).FirstOrDefaultAsync(s => s.Id == socioId, cancellationToken);
+        _dbContext.Socios
+            .Include(s => s.Membresias)
+            .ThenInclude(m => m.Plan)
+            .FirstOrDefaultAsync(s => s.Id == socioId, cancellationToken);
 
     public Task AgregarSocioAsync(Socio socio, CancellationToken cancellationToken) => _dbContext.Socios.AddAsync(socio, cancellationToken).AsTask();
 
@@ -61,4 +64,19 @@ public class GimnasioRepositorio : IGimnasioRepositorio
         _dbContext.RegistrosAcceso.AddAsync(registroAcceso, cancellationToken).AsTask();
 
     public Task GuardarCambiosAsync(CancellationToken cancellationToken) => _dbContext.SaveChangesAsync(cancellationToken);
+
+    public async Task EjecutarEnTransaccionAsync(Func<CancellationToken, Task> operacion, CancellationToken cancellationToken)
+    {
+        await using var transaccion = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+        try
+        {
+            await operacion(cancellationToken);
+            await transaccion.CommitAsync(cancellationToken);
+        }
+        catch
+        {
+            await transaccion.RollbackAsync(cancellationToken);
+            throw;
+        }
+    }
 }
