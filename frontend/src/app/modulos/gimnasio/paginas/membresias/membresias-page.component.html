@@ -1,0 +1,58 @@
+<app-page-header
+  breadcrumb="Gimnasio / Membresías"
+  titulo="Membresías"
+  descripcion="Control de vigencia, deuda y legibilidad operativa"
+/>
+
+<section class="panel" *ngIf="!cargando; else loadingTpl">
+  <div class="alerta ok" *ngIf="exito">{{ exito }}</div>
+  <div class="alerta error" *ngIf="error">{{ error }}</div>
+
+  <form class="grilla" [formGroup]="formulario" (ngSubmit)="guardar()">
+    <label>
+      Socio
+      <select formControlName="socioId">
+        <option value="">Seleccionar socio</option>
+        <option *ngFor="let s of socios" [value]="s.id">{{ s.numeroSocio }} · {{ s.apellido }}, {{ s.nombre }}</option>
+      </select>
+      <small class="val-error" *ngIf="formulario.controls.socioId.touched && formulario.controls.socioId.invalid">Seleccioná un socio</small>
+    </label>
+    <label>
+      Plan
+      <select formControlName="planId">
+        <option value="">Seleccionar plan</option>
+        <option *ngFor="let p of planes" [value]="p.id">{{ p.nombre }} ({{ p.precio | currency:'ARS' }})</option>
+      </select>
+      <small class="val-error" *ngIf="formulario.controls.planId.touched && formulario.controls.planId.invalid">Seleccioná un plan</small>
+    </label>
+    <label>
+      Fecha inicio
+      <input type="date" formControlName="fechaInicio">
+      <small class="val-error" *ngIf="formulario.controls.fechaInicio.touched && formulario.controls.fechaInicio.invalid">Definí fecha de inicio</small>
+    </label>
+    <label>
+      Monto adeudado
+      <input type="number" formControlName="montoAdeudado" placeholder="Monto adeudado">
+      <small class="val-error" *ngIf="formulario.controls.montoAdeudado.touched && formulario.controls.montoAdeudado.invalid">No puede ser negativo</small>
+    </label>
+    <button [disabled]="guardando">{{ guardando ? 'Guardando...' : 'Generar membresía' }}</button>
+  </form>
+
+  <div class="tabla-wrap" *ngIf="membresias.length; else emptyTpl">
+    <table class="tabla-avanzada">
+      <thead><tr><th>Socio</th><th>Plan</th><th>Vigencia</th><th>Deuda</th><th>Monto</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let m of membresias">
+          <td>{{ socioNombre(m.socioId) }}</td>
+          <td>{{ planNombre(m.planId) }}</td>
+          <td><app-status-badge [texto]="m.estadoVigencia" [tipo]="m.estadoVigencia === 'vigente' ? 'ok' : 'alerta'" /></td>
+          <td><app-status-badge [texto]="m.estadoDeuda" [tipo]="m.estadoDeuda === 'al_dia' ? 'ok' : 'error'" /></td>
+          <td>{{ m.montoTotal | currency:'ARS' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<ng-template #loadingTpl><app-loading-state texto="Cargando membresías..." /></ng-template>
+<ng-template #emptyTpl><app-empty-state titulo="Sin membresías" mensaje="Todavía no hay membresías registradas." /></ng-template>

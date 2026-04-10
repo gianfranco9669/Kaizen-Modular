@@ -1,0 +1,32 @@
+<app-page-header
+  breadcrumb="Gimnasio / Socios"
+  titulo="Socios"
+  descripcion="Listado operativo con búsqueda, filtros y edición"
+  accionTexto="Nuevo socio"
+  accionRuta="/gimnasio/socios/nuevo"
+/>
+
+<section class="panel" *ngIf="!cargando; else loadingTpl">
+  <div class="alerta error" *ngIf="error">{{ error }}</div>
+
+  <app-filtros-barra [valor]="filtro" (valorChange)="filtro = $event; pagina = 1" placeholder="Buscar por número, nombre o documento" />
+
+  <app-tabla-avanzada [columnas]="['N°','Nombre','Documento','Contacto','Estado','Acciones']" [filas]="sociosPaginados" [filaTemplate]="filaTpl">
+    <app-empty-state titulo="Sin socios" mensaje="Todavía no hay socios cargados o no coinciden con el filtro." />
+  </app-tabla-avanzada>
+
+  <ng-template #filaTpl let-socio>
+    <td>{{ socio.numeroSocio }}</td>
+    <td>{{ socio.apellido }}, {{ socio.nombre }}</td>
+    <td>{{ socio.documento }}</td>
+    <td>{{ socio.correo || '-' }} / {{ socio.telefono || '-' }}</td>
+    <td>{{ socio.activo ? 'Activo' : 'Inactivo' }}</td>
+    <td><a [routerLink]="['/gimnasio/socios', socio.id, 'editar']">Editar</a></td>
+  </ng-template>
+
+  <app-paginador [paginaActual]="pagina" [totalPaginas]="totalPaginas" (paginaChange)="pagina = $event" />
+</section>
+
+<ng-template #loadingTpl>
+  <app-loading-state texto="Cargando socios..." />
+</ng-template>

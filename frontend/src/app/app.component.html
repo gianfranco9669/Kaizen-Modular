@@ -1,0 +1,58 @@
+<div class="layout-plataforma">
+  <aside class="sidebar">
+    <div class="marca">
+      <h1>KAIZEN</h1>
+      <small>ARDESOFT Platform</small>
+    </div>
+
+    <nav class="menu-modulos">
+      <section>
+        <h4>Plataforma</h4>
+        <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Dashboard principal</a>
+      </section>
+
+      <section>
+        <h4>Administración</h4>
+        <a routerLink="/administracion" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Inicio módulo</a>
+        <a routerLink="/administracion/impactos" routerLinkActive="activo">Impactos comerciales</a>
+      </section>
+
+      <section>
+        <h4>Gimnasio</h4>
+        <a routerLink="/gimnasio" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Inicio módulo</a>
+        <a routerLink="/gimnasio/socios" routerLinkActive="activo">Socios</a>
+        <a routerLink="/gimnasio/planes" routerLinkActive="activo">Planes</a>
+        <a routerLink="/gimnasio/membresias" routerLinkActive="activo">Membresías</a>
+        <a routerLink="/gimnasio/acceso" routerLinkActive="activo">Acceso</a>
+      </section>
+
+      <section>
+        <h4>Gastronomía</h4>
+        <a routerLink="/gastronomia" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Inicio módulo</a>
+        <a routerLink="/gastronomia/categorias" routerLinkActive="activo">Categorías</a>
+        <a routerLink="/gastronomia/productos" routerLinkActive="activo">Productos</a>
+        <a routerLink="/gastronomia/insumos" routerLinkActive="activo">Insumos</a>
+        <a routerLink="/gastronomia/recetas" routerLinkActive="activo">Recetas</a>
+        <a routerLink="/gastronomia/cocina" routerLinkActive="activo">Cocina</a>
+        <a routerLink="/gastronomia/pedidos" routerLinkActive="activo">Pedidos</a>
+      </section>
+    </nav>
+  </aside>
+
+  <section class="main-shell">
+    <header class="topbar">
+      <div>
+        <small>Ruta actual</small>
+        <strong>{{ breadcrumb }}</strong>
+      </div>
+      <div class="topbar-actions">
+        <button>Buscar</button>
+        <button class="primario">Nueva operación</button>
+      </div>
+    </header>
+
+    <main class="contenido">
+      <router-outlet></router-outlet>
+    </main>
+  </section>
+</div>

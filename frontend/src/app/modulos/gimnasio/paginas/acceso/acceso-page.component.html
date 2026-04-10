@@ -1,0 +1,19 @@
+<app-page-header
+  breadcrumb="Gimnasio / Accesos"
+  titulo="Control de acceso"
+  descripcion="Validación por número de socio o documento"
+/>
+
+<section class="panel">
+  <div class="alerta error" *ngIf="error">{{ error }}</div>
+
+  <form class="grilla" [formGroup]="formulario" (ngSubmit)="buscarYValidar()">
+    <input formControlName="criterio" placeholder="Número de socio o documento">
+    <button type="submit">Validar ingreso</button>
+  </form>
+
+  <article class="resultado" *ngIf="resultado">
+    <app-status-badge [texto]="resultado" [tipo]="resultado === 'permitido' ? 'ok' : 'error'" />
+    <p>{{ motivo }}</p>
+  </article>
+</section>
