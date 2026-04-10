@@ -16,13 +16,39 @@
             "tsConfig": "tsconfig.app.json",
             "styles": ["src/styles.css"],
             "assets": ["src/assets"]
-          }
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "sourceMap": false,
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "vendorChunk": true,
+              "extractLicenses": false
+            }
+          },
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "buildTarget": "kaizen-frontend:build"
-          }
+          "configurations": {
+            "production": {
+              "buildTarget": "kaizen-frontend:build:production"
+            },
+            "development": {
+              "buildTarget": "kaizen-frontend:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
         }
       }
     }

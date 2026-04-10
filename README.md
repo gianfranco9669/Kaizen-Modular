@@ -1,14 +1,50 @@
 # Kaizen Modular (ARDESOFT)
 
-Base técnica actual del proyecto:
+Base del sistema en stack definitivo:
 
-- Frontend: Angular
-- Backend: ASP.NET Core Web API (C#)
-- Persistencia: EF Core + PostgreSQL (Npgsql)
+- **Frontend:** Angular
+- **Backend:** ASP.NET Core Web API (C#)
+- **Base de datos:** PostgreSQL + Entity Framework Core (Npgsql)
 
-Dominios implementados en este corte:
+## Qué quedó operativo en este corte
 
-- Gimnasio (socios, planes, membresías, acceso)
-- Administración (impacto comercial inicial)
+- Gimnasio: socios, planes, membresías y control de acceso básico.
+- Administración: consulta de impactos comerciales generados desde gimnasio.
+- Integración inicial: al crear membresía se registra impacto comercial administrativo dentro de transacción.
+- Frontend modular: navegación por dominios (Gimnasio y Administración).
 
-> Este repositorio ya no utiliza Django/Python.
+## Qué falta todavía
+
+- Autenticación, autorización por roles y permisos finos.
+- Auditoría persistente completa y trazabilidad avanzada.
+- Módulo Gastronomía operativo.
+- Test automáticos (unitarios/integración/e2e).
+
+## Comandos para levantar local
+
+### Backend
+
+```bash
+cd backend/src/Kaizen.Api
+dotnet restore
+dotnet ef database update --project ../Kaizen.Infraestructura --startup-project .
+dotnet run
+```
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run start
+```
+
+### Builds Angular
+
+```bash
+# Build desarrollo
+npm run build
+
+# Build producción (usa environment.prod.ts)
+npm run build:prod
+```

@@ -1,5 +1,5 @@
+using Kaizen.Aplicacion.Administracion.Dto;
 using Kaizen.Aplicacion.Administracion.Servicios;
-using Kaizen.Dominio.Administracion;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kaizen.Api.Controllers.Administracion;
@@ -16,6 +16,6 @@ public class ImpactosController : ControllerBase
     }
 
     [HttpGet]
-    public Task<List<ImpactoComercial>> Obtener(CancellationToken cancellationToken) =>
+    public Task<List<ImpactoComercialDto>> Obtener(CancellationToken cancellationToken) =>
         _servicio.ObtenerImpactosAsync(cancellationToken);
 }

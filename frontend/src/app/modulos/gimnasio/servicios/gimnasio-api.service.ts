@@ -37,16 +37,6 @@ export interface Membresia {
   montoAdeudado: number;
 }
 
-export interface ImpactoComercial {
-  id: string;
-  moduloOrigen: string;
-  tipoOperacion: string;
-  referenciaExterna: string;
-  descripcion: string;
-  monto: number;
-  fechaOperacionUtc: string;
-}
-
 @Injectable({ providedIn: 'root' })
 export class GimnasioApiService {
   private readonly baseUrl = environment.apiBaseUrl;
@@ -79,9 +69,5 @@ export class GimnasioApiService {
 
   validarAcceso(socioId: string): Observable<{ resultado: string; motivo: string }> {
     return this.http.post<{ resultado: string; motivo: string }>(`${this.baseUrl}/gimnasio/membresias/validar-acceso`, { socioId });
-  }
-
-  listarImpactosAdministracion(): Observable<ImpactoComercial[]> {
-    return this.http.get<ImpactoComercial[]>(`${this.baseUrl}/administracion/impactos`);
   }
 }

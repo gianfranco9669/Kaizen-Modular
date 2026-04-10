@@ -1,3 +1,4 @@
+using Kaizen.Aplicacion.Administracion.Dto;
 using Kaizen.Aplicacion.Administracion.Interfaces;
 using Kaizen.Dominio.Administracion;
 
@@ -27,6 +28,17 @@ public class ServicioImpactoAdministrativo
         return _repositorio.RegistrarImpactoAsync(impacto, cancellationToken);
     }
 
-    public Task<List<ImpactoComercial>> ObtenerImpactosAsync(CancellationToken cancellationToken) =>
-        _repositorio.ObtenerImpactosAsync(cancellationToken);
+    public async Task<List<ImpactoComercialDto>> ObtenerImpactosAsync(CancellationToken cancellationToken)
+    {
+        var impactos = await _repositorio.ObtenerImpactosAsync(cancellationToken);
+        return impactos.Select(i => new ImpactoComercialDto(
+            i.Id,
+            i.ModuloOrigen,
+            i.TipoOperacion,
+            i.ReferenciaExterna,
+            i.Descripcion,
+            i.Monto,
+            i.FechaOperacionUtc
+        )).ToList();
+    }
 }

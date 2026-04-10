@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 
-import { GimnasioApiService, ImpactoComercial } from '../../../gimnasio/servicios/gimnasio-api.service';
+import { AdministracionApiService, ImpactoComercial } from '../../servicios/administracion-api.service';
 
 @Component({
   standalone: true,
@@ -9,11 +9,11 @@ import { GimnasioApiService, ImpactoComercial } from '../../../gimnasio/servicio
   templateUrl: './impactos-page.component.html'
 })
 export class ImpactosPageComponent implements OnInit {
-  private readonly api = inject(GimnasioApiService);
+  private readonly api = inject(AdministracionApiService);
 
   impactos: ImpactoComercial[] = [];
 
   ngOnInit(): void {
-    this.api.listarImpactosAdministracion().subscribe((data) => (this.impactos = data));
+    this.api.listarImpactos().subscribe((data) => (this.impactos = data));
   }
 }
