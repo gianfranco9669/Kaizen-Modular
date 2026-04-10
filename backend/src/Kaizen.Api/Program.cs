@@ -1,9 +1,12 @@
 using Kaizen.Aplicacion.Administracion.Interfaces;
 using Kaizen.Aplicacion.Administracion.Servicios;
+using Kaizen.Aplicacion.Gastronomia.Interfaces;
+using Kaizen.Aplicacion.Gastronomia.Servicios;
 using Kaizen.Aplicacion.Gimnasio.Interfaces;
 using Kaizen.Aplicacion.Gimnasio.Servicios;
 using Kaizen.Api.Middlewares;
 using Kaizen.Infraestructura.Administracion;
+using Kaizen.Infraestructura.Gastronomia;
 using Kaizen.Infraestructura.Gimnasio;
 using Kaizen.Infraestructura.Persistencia;
 using Microsoft.EntityFrameworkCore;
@@ -19,8 +22,10 @@ builder.Services.AddDbContext<KaizenDbContext>(options => options.UseNpgsql(cade
 
 builder.Services.AddScoped<IGimnasioRepositorio, GimnasioRepositorio>();
 builder.Services.AddScoped<IAdministracionRepositorio, AdministracionRepositorio>();
+builder.Services.AddScoped<IGastronomiaRepositorio, GastronomiaRepositorio>();
 builder.Services.AddScoped<ServicioImpactoAdministrativo>();
 builder.Services.AddScoped<ServicioGimnasio>();
+builder.Services.AddScoped<ServicioGastronomia>();
 
 builder.Services.AddCors(options =>
 {

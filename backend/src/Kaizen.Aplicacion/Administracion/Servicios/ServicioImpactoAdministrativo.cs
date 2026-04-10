@@ -28,6 +28,22 @@ public class ServicioImpactoAdministrativo
         return _repositorio.RegistrarImpactoAsync(impacto, cancellationToken);
     }
 
+
+    public Task RegistrarImpactoOperacionAsync(string moduloOrigen, string tipoOperacion, string referenciaExterna, decimal monto, string descripcion, CancellationToken cancellationToken)
+    {
+        var impacto = new ImpactoComercial
+        {
+            ModuloOrigen = moduloOrigen,
+            TipoOperacion = tipoOperacion,
+            ReferenciaExterna = referenciaExterna,
+            Descripcion = descripcion,
+            Monto = monto,
+            FechaOperacionUtc = DateTime.UtcNow
+        };
+
+        return _repositorio.RegistrarImpactoAsync(impacto, cancellationToken);
+    }
+
     public async Task<List<ImpactoComercialDto>> ObtenerImpactosAsync(CancellationToken cancellationToken)
     {
         var impactos = await _repositorio.ObtenerImpactosAsync(cancellationToken);

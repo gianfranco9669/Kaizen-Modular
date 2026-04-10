@@ -99,3 +99,11 @@ button {
 .acciones-form { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 10px; align-items: center; }
 .acciones-form a { color: #b6c6ff; }
 .val-error { color: #ff9cae; font-size: .75rem; margin-top: 2px; }
+
+.formulario-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 10px; }
+.formulario-grid-5 { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin-bottom: 10px; }
+.tabla-pro { width: 100%; border-collapse: collapse; }
+.tabla-pro th, .tabla-pro td { border-bottom: 1px solid rgba(255,255,255,.1); padding: 8px; text-align: left; }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
+.accesos-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.accesos-grid a { color: var(--texto); text-decoration: none; padding: 10px; border: 1px solid rgba(255,255,255,.08); border-radius: 10px; background: rgba(255,255,255,.03); }
