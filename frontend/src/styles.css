@@ -30,7 +30,28 @@ body {
 .page-header p, .breadcrumbs { color: var(--texto-2); }
 .btn-principal { background: linear-gradient(130deg,#4f73ff,#3655d9); color: #fff; text-decoration: none; padding: 10px 14px; border-radius: 10px; }
 
-.kpis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
+.kpis-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 14px; }
+.panel-grid { display: grid; gap: 12px; grid-template-columns: 2fr 1.2fr 1fr; }
+
+.modulos-cards { display: grid; gap: 10px; }
+.modulo-card { display: block; padding: 12px; border-radius: 12px; text-decoration: none; color: var(--texto); border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); }
+.modulo-card span { display: block; color: var(--texto-2); margin-top: 4px; }
+
+.lista-actividad { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.lista-actividad li { padding: 10px; border-radius: 10px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); }
+.lista-actividad span { display: block; font-weight: 600; }
+.lista-actividad small { color: var(--texto-2); }
+
+.quick-actions { display: grid; gap: 8px; }
+.quick-actions a { color: #c4d0ff; text-decoration: none; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); }
+
+.placeholders-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.placeholder-card { display: block; text-decoration: none; color: var(--texto); border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); border-radius: 12px; padding: 12px; }
+.placeholder-card span { display: block; color: var(--texto-2); margin-top: 4px; }
+
+.subnav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.subnav a { text-decoration: none; color: #d6e1ff; padding: 10px; border-radius: 10px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
+.subnav a.disabled { opacity: .6; pointer-events: none; }
 
 .grilla {
   margin: 12px 0;

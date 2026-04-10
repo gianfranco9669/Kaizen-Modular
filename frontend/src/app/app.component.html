@@ -1,27 +1,53 @@
-<div class="layout">
+<div class="layout-plataforma">
   <aside class="sidebar">
     <div class="marca">
-      <h1>ARDESOFT · Kaizen</h1>
-      <small>Plataforma modular premium</small>
+      <h1>KAIZEN</h1>
+      <small>ARDESOFT Platform</small>
     </div>
-    <nav>
-      <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Panel</a>
-      <a routerLink="/gimnasio/socios" routerLinkActive="activo">Gimnasio · Socios</a>
-      <a routerLink="/gimnasio/planes" routerLinkActive="activo">Gimnasio · Planes</a>
-      <a routerLink="/gimnasio/membresias" routerLinkActive="activo">Gimnasio · Membresías</a>
-      <a routerLink="/gimnasio/acceso" routerLinkActive="activo">Gimnasio · Accesos</a>
-      <a routerLink="/administracion/impactos" routerLinkActive="activo">Administración · Impactos</a>
+
+    <nav class="menu-modulos">
+      <section>
+        <h4>Plataforma</h4>
+        <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Dashboard principal</a>
+      </section>
+
+      <section>
+        <h4>Administración</h4>
+        <a routerLink="/administracion" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Inicio módulo</a>
+        <a routerLink="/administracion/impactos" routerLinkActive="activo">Impactos comerciales</a>
+      </section>
+
+      <section>
+        <h4>Gimnasio</h4>
+        <a routerLink="/gimnasio" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Inicio módulo</a>
+        <a routerLink="/gimnasio/socios" routerLinkActive="activo">Socios</a>
+        <a routerLink="/gimnasio/planes" routerLinkActive="activo">Planes</a>
+        <a routerLink="/gimnasio/membresias" routerLinkActive="activo">Membresías</a>
+        <a routerLink="/gimnasio/acceso" routerLinkActive="activo">Acceso</a>
+      </section>
+
+      <section>
+        <h4>Gastronomía</h4>
+        <a routerLink="/gastronomia" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Inicio módulo</a>
+        <a routerLink="/gastronomia/catalogo" routerLinkActive="activo">Catálogo</a>
+        <a routerLink="/gastronomia/produccion" routerLinkActive="activo">Producción</a>
+        <a routerLink="/gastronomia/inventario" routerLinkActive="activo">Inventario</a>
+        <a routerLink="/gastronomia/ventas" routerLinkActive="activo">Ventas</a>
+        <a routerLink="/gastronomia/cocina" routerLinkActive="activo">Cocina</a>
+        <a routerLink="/gastronomia/caja" routerLinkActive="activo">Caja</a>
+      </section>
     </nav>
   </aside>
 
   <section class="main-shell">
     <header class="topbar">
       <div>
-        <strong>Breadcrumb:</strong> {{ breadcrumb }}
+        <small>Ruta actual</small>
+        <strong>{{ breadcrumb }}</strong>
       </div>
       <div class="topbar-actions">
-        <button>Exportar</button>
-        <button class="primario">Nueva acción</button>
+        <button>Buscar</button>
+        <button class="primario">Nueva operación</button>
       </div>
     </header>
 

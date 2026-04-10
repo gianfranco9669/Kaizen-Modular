@@ -2,6 +2,10 @@ import { Routes } from '@angular/router';
 
 export const GIMNASIO_ROUTES: Routes = [
   {
+    path: '',
+    loadComponent: () => import('./paginas/inicio/gimnasio-inicio.component').then(m => m.GimnasioInicioComponent)
+  },
+  {
     path: 'socios',
     loadComponent: () => import('./paginas/socios-listado/socios-listado.component').then(m => m.SociosListadoComponent)
   },
