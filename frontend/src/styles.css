@@ -77,3 +77,4 @@ button {
 
 .acciones-form { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 10px; align-items: center; }
 .acciones-form a { color: #b6c6ff; }
+.val-error { color: #ff9cae; font-size: .75rem; margin-top: 2px; }

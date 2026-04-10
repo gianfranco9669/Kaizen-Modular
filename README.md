@@ -27,6 +27,8 @@ Base del sistema en stack definitivo:
 ```bash
 cd backend/src/Kaizen.Api
 dotnet restore
+# definir cadena local de forma segura
+dotnet user-secrets set "ConnectionStrings:KaizenDb" "Host=localhost;Port=5432;Database=kaizen_modular_dev;Username=kaizen_app;Password=TU_PASSWORD"
 dotnet ef database update --project ../Kaizen.Infraestructura --startup-project .
 dotnet run
 ```

@@ -9,10 +9,10 @@
   <div class="alerta error" *ngIf="error">{{ error }}</div>
 
   <form class="grilla" [formGroup]="formulario" (ngSubmit)="guardar()">
-    <label>Número socio<input formControlName="numeroSocio"></label>
-    <label>Nombre<input formControlName="nombre"></label>
-    <label>Apellido<input formControlName="apellido"></label>
-    <label>Documento<input formControlName="documento"></label>
+    <label>Número socio<input formControlName="numeroSocio"><small class="val-error" *ngIf="formulario.controls.numeroSocio.touched && formulario.controls.numeroSocio.invalid">Requerido</small></label>
+    <label>Nombre<input formControlName="nombre"><small class="val-error" *ngIf="formulario.controls.nombre.touched && formulario.controls.nombre.invalid">Requerido</small></label>
+    <label>Apellido<input formControlName="apellido"><small class="val-error" *ngIf="formulario.controls.apellido.touched && formulario.controls.apellido.invalid">Requerido</small></label>
+    <label>Documento<input formControlName="documento"><small class="val-error" *ngIf="formulario.controls.documento.touched && formulario.controls.documento.invalid">Requerido</small></label>
     <label>Correo<input formControlName="correo"></label>
     <label>Teléfono<input formControlName="telefono"></label>
     <div class="acciones-form">

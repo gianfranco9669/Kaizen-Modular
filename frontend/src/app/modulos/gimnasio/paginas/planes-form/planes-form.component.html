@@ -7,10 +7,10 @@
 <section class="panel">
   <div class="alerta error" *ngIf="error">{{ error }}</div>
   <form class="grilla" [formGroup]="formulario" (ngSubmit)="guardar()">
-    <label>Nombre<input formControlName="nombre"></label>
+    <label>Nombre<input formControlName="nombre"><small class="val-error" *ngIf="formulario.controls.nombre.touched && formulario.controls.nombre.invalid">Requerido</small></label>
     <label>Descripción<input formControlName="descripcion"></label>
-    <label>Precio<input type="number" formControlName="precio"></label>
-    <label>Duración (días)<input type="number" formControlName="duracionDias"></label>
+    <label>Precio<input type="number" formControlName="precio"><small class="val-error" *ngIf="formulario.controls.precio.touched && formulario.controls.precio.invalid">Debe ser mayor a 0</small></label>
+    <label>Duración (días)<input type="number" formControlName="duracionDias"><small class="val-error" *ngIf="formulario.controls.duracionDias.touched && formulario.controls.duracionDias.invalid">Debe ser mayor a 0</small></label>
     <label class="inline"><input type="checkbox" formControlName="permiteAcceso"> Permite acceso</label>
     <div class="acciones-form">
       <a routerLink="/gimnasio/planes">Cancelar</a>

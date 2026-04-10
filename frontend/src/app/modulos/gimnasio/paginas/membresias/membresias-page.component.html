@@ -9,16 +9,32 @@
   <div class="alerta error" *ngIf="error">{{ error }}</div>
 
   <form class="grilla" [formGroup]="formulario" (ngSubmit)="guardar()">
-    <select formControlName="socioId">
-      <option value="">Seleccionar socio</option>
-      <option *ngFor="let s of socios" [value]="s.id">{{ s.numeroSocio }} · {{ s.apellido }}, {{ s.nombre }}</option>
-    </select>
-    <select formControlName="planId">
-      <option value="">Seleccionar plan</option>
-      <option *ngFor="let p of planes" [value]="p.id">{{ p.nombre }} ({{ p.precio | currency:'ARS' }})</option>
-    </select>
-    <input type="date" formControlName="fechaInicio">
-    <input type="number" formControlName="montoAdeudado" placeholder="Monto adeudado">
+    <label>
+      Socio
+      <select formControlName="socioId">
+        <option value="">Seleccionar socio</option>
+        <option *ngFor="let s of socios" [value]="s.id">{{ s.numeroSocio }} · {{ s.apellido }}, {{ s.nombre }}</option>
+      </select>
+      <small class="val-error" *ngIf="formulario.controls.socioId.touched && formulario.controls.socioId.invalid">Seleccioná un socio</small>
+    </label>
+    <label>
+      Plan
+      <select formControlName="planId">
+        <option value="">Seleccionar plan</option>
+        <option *ngFor="let p of planes" [value]="p.id">{{ p.nombre }} ({{ p.precio | currency:'ARS' }})</option>
+      </select>
+      <small class="val-error" *ngIf="formulario.controls.planId.touched && formulario.controls.planId.invalid">Seleccioná un plan</small>
+    </label>
+    <label>
+      Fecha inicio
+      <input type="date" formControlName="fechaInicio">
+      <small class="val-error" *ngIf="formulario.controls.fechaInicio.touched && formulario.controls.fechaInicio.invalid">Definí fecha de inicio</small>
+    </label>
+    <label>
+      Monto adeudado
+      <input type="number" formControlName="montoAdeudado" placeholder="Monto adeudado">
+      <small class="val-error" *ngIf="formulario.controls.montoAdeudado.touched && formulario.controls.montoAdeudado.invalid">No puede ser negativo</small>
+    </label>
     <button [disabled]="guardando">{{ guardando ? 'Guardando...' : 'Generar membresía' }}</button>
   </form>
 
