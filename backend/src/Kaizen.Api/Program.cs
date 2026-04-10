@@ -14,8 +14,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<KaizenDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("KaizenDb")));
+var cadenaConexion = ObtenerCadenaConexion(builder.Configuration);
+builder.Services.AddDbContext<KaizenDbContext>(options => options.UseNpgsql(cadenaConexion));
 
 builder.Services.AddScoped<IGimnasioRepositorio, GimnasioRepositorio>();
 builder.Services.AddScoped<IAdministracionRepositorio, AdministracionRepositorio>();
@@ -44,3 +44,22 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+
+static string ObtenerCadenaConexion(IConfiguration configuration)
+{
+    var cadenaDesdeVariableEntorno = Environment.GetEnvironmentVariable("KAIZEN_DB_CONNECTION");
+    if (!string.IsNullOrWhiteSpace(cadenaDesdeVariableEntorno))
+    {
+        return cadenaDesdeVariableEntorno;
+    }
+
+    var cadenaDesdeConfiguracion = configuration.GetConnectionString("KaizenDb");
+    if (!string.IsNullOrWhiteSpace(cadenaDesdeConfiguracion))
+    {
+        return cadenaDesdeConfiguracion;
+    }
+
+    throw new InvalidOperationException(
+        "No hay cadena de conexión definida. Configurá 'ConnectionStrings:KaizenDb' en appsettings/user-secrets o la variable de entorno 'KAIZEN_DB_CONNECTION'."
+    );
+}

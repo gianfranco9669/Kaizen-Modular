@@ -1,34 +1,31 @@
 # Kaizen Modular (ARDESOFT)
 
-Base del sistema en stack definitivo:
+Base actual del proyecto:
+- Frontend: Angular
+- Backend: ASP.NET Core Web API (C#)
+- Base de datos: PostgreSQL + EF Core
 
-- **Frontend:** Angular
-- **Backend:** ASP.NET Core Web API (C#)
-- **Base de datos:** PostgreSQL + Entity Framework Core (Npgsql)
+## Configuración de base de datos (cierre técnico)
 
-## Qué quedó operativo en este corte
+`Program.cs` resuelve la conexión en este orden:
+1. Variable de entorno `KAIZEN_DB_CONNECTION`
+2. `ConnectionStrings:KaizenDb` en configuración (`appsettings*.json` / user-secrets)
 
-- Gimnasio: socios, planes, membresías y control de acceso básico.
-- Administración: consulta de impactos comerciales generados desde gimnasio.
-- Integración inicial: al crear membresía se registra impacto comercial administrativo dentro de transacción.
-- Frontend modular: navegación por dominios (Gimnasio y Administración).
+### Variable real a definir
 
-## Qué falta todavía
+- **Nombre:** `KAIZEN_DB_CONNECTION`
+- **Ejemplo:**
+  `Host=localhost;Port=5432;Database=kaizen_modular_dev;Username=kaizen_app;Password=tu_password`
 
-- Autenticación, autorización por roles y permisos finos.
-- Auditoría persistente completa y trazabilidad avanzada.
-- Módulo Gastronomía operativo.
-- Test automáticos (unitarios/integración/e2e).
-
-## Comandos para levantar local
+## Arranque mínimo
 
 ### Backend
 
 ```bash
 cd backend/src/Kaizen.Api
 dotnet restore
-# definir cadena local de forma segura
-dotnet user-secrets set "ConnectionStrings:KaizenDb" "Host=localhost;Port=5432;Database=kaizen_modular_dev;Username=kaizen_app;Password=TU_PASSWORD"
+# opcional recomendado para no hardcodear credenciales
+dotnet user-secrets set "ConnectionStrings:KaizenDb" "Host=localhost;Port=5432;Database=kaizen_modular_dev;Username=kaizen_app;Password=tu_password"
 dotnet ef database update --project ../Kaizen.Infraestructura --startup-project .
 dotnet run
 ```
@@ -39,14 +36,4 @@ dotnet run
 cd frontend
 npm install
 npm run start
-```
-
-### Builds Angular
-
-```bash
-# Build desarrollo
-npm run build
-
-# Build producción (usa environment.prod.ts)
-npm run build:prod
 ```
