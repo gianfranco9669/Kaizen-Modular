@@ -2,29 +2,54 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { GimnasioApiService } from '../../servicios/gimnasio-api.service';
+import { PageHeaderComponent } from '../../../../shared/ui/page-header/page-header.component';
+import { StatusBadgeComponent } from '../../../../shared/ui/status-badge/status-badge.component';
+import { GimnasioApiService, Socio } from '../../servicios/gimnasio-api.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, StatusBadgeComponent],
   templateUrl: './acceso-page.component.html'
 })
 export class AccesoPageComponent {
   private readonly api = inject(GimnasioApiService);
   private readonly fb = inject(FormBuilder);
 
+  socios: Socio[] = [];
   resultado = '';
   motivo = '';
+  error = '';
 
   formulario = this.fb.nonNullable.group({
-    socioId: ['', Validators.required]
+    criterio: ['', Validators.required]
   });
 
-  validar(): void {
+  buscarYValidar(): void {
     if (this.formulario.invalid) return;
-    this.api.validarAcceso(this.formulario.getRawValue().socioId).subscribe((r) => {
-      this.resultado = r.resultado;
-      this.motivo = r.motivo;
+    const criterio = this.formulario.getRawValue().criterio.trim().toLowerCase();
+
+    this.api.listarSocios().subscribe({
+      next: data => {
+        this.socios = data;
+        const socio = this.socios.find(s =>
+          s.numeroSocio.toLowerCase() === criterio || s.documento.toLowerCase() === criterio
+        );
+
+        if (!socio) {
+          this.error = 'No se encontró socio con ese número o documento.';
+          this.resultado = '';
+          return;
+        }
+
+        this.error = '';
+        this.api.validarAcceso(socio.id).subscribe(r => {
+          this.resultado = r.resultado;
+          this.motivo = r.motivo;
+        });
+      },
+      error: () => {
+        this.error = 'No se pudo consultar socios para validar acceso.';
+      }
     });
   }
 }

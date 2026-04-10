@@ -1,25 +1,42 @@
-<section class="panel">
-  <h2>Membresías</h2>
-  <form class="grilla" [formGroup]="formulario" (ngSubmit)="crear()">
+<app-page-header
+  breadcrumb="Gimnasio / Membresías"
+  titulo="Membresías"
+  descripcion="Control de vigencia, deuda y legibilidad operativa"
+/>
+
+<section class="panel" *ngIf="!cargando; else loadingTpl">
+  <div class="alerta ok" *ngIf="exito">{{ exito }}</div>
+  <div class="alerta error" *ngIf="error">{{ error }}</div>
+
+  <form class="grilla" [formGroup]="formulario" (ngSubmit)="guardar()">
     <select formControlName="socioId">
-      <option value="">Socio</option>
-      <option *ngFor="let s of socios" [value]="s.id">{{ s.numeroSocio }} · {{ s.apellido }}</option>
+      <option value="">Seleccionar socio</option>
+      <option *ngFor="let s of socios" [value]="s.id">{{ s.numeroSocio }} · {{ s.apellido }}, {{ s.nombre }}</option>
     </select>
     <select formControlName="planId">
-      <option value="">Plan</option>
-      <option *ngFor="let p of planes" [value]="p.id">{{ p.nombre }}</option>
+      <option value="">Seleccionar plan</option>
+      <option *ngFor="let p of planes" [value]="p.id">{{ p.nombre }} ({{ p.precio | currency:'ARS' }})</option>
     </select>
-    <input formControlName="fechaInicio" type="date">
-    <input formControlName="montoAdeudado" type="number" placeholder="Monto adeudado">
-    <button type="submit">Generar membresía</button>
+    <input type="date" formControlName="fechaInicio">
+    <input type="number" formControlName="montoAdeudado" placeholder="Monto adeudado">
+    <button [disabled]="guardando">{{ guardando ? 'Guardando...' : 'Generar membresía' }}</button>
   </form>
 
-  <table>
-    <thead><tr><th>Socio</th><th>Plan</th><th>Vigencia</th><th>Deuda</th></tr></thead>
-    <tbody>
-      <tr *ngFor="let m of membresias">
-        <td>{{ m.socioId }}</td><td>{{ m.planId }}</td><td>{{ m.estadoVigencia }}</td><td>{{ m.estadoDeuda }} ({{ m.montoAdeudado | currency:'ARS' }})</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="tabla-wrap" *ngIf="membresias.length; else emptyTpl">
+    <table class="tabla-avanzada">
+      <thead><tr><th>Socio</th><th>Plan</th><th>Vigencia</th><th>Deuda</th><th>Monto</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let m of membresias">
+          <td>{{ socioNombre(m.socioId) }}</td>
+          <td>{{ planNombre(m.planId) }}</td>
+          <td><app-status-badge [texto]="m.estadoVigencia" [tipo]="m.estadoVigencia === 'vigente' ? 'ok' : 'alerta'" /></td>
+          <td><app-status-badge [texto]="m.estadoDeuda" [tipo]="m.estadoDeuda === 'al_dia' ? 'ok' : 'error'" /></td>
+          <td>{{ m.montoTotal | currency:'ARS' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </section>
+
+<ng-template #loadingTpl><app-loading-state texto="Cargando membresías..." /></ng-template>
+<ng-template #emptyTpl><app-empty-state titulo="Sin membresías" mensaje="Todavía no hay membresías registradas." /></ng-template>

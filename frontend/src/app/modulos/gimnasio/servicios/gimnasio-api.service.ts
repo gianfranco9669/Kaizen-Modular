@@ -51,12 +51,20 @@ export class GimnasioApiService {
     return this.http.post<Socio>(`${this.baseUrl}/gimnasio/socios`, payload);
   }
 
+  actualizarSocio(id: string, payload: Omit<Socio, 'id' | 'activo'>): Observable<Socio> {
+    return this.http.put<Socio>(`${this.baseUrl}/gimnasio/socios/${id}`, payload);
+  }
+
   listarPlanes(): Observable<Plan[]> {
     return this.http.get<Plan[]>(`${this.baseUrl}/gimnasio/planes`);
   }
 
   crearPlan(payload: Omit<Plan, 'id' | 'activo'>): Observable<Plan> {
     return this.http.post<Plan>(`${this.baseUrl}/gimnasio/planes`, payload);
+  }
+
+  actualizarPlan(id: string, payload: Omit<Plan, 'id' | 'activo'>): Observable<Plan> {
+    return this.http.put<Plan>(`${this.baseUrl}/gimnasio/planes/${id}`, payload);
   }
 
   listarMembresias(): Observable<Membresia[]> {

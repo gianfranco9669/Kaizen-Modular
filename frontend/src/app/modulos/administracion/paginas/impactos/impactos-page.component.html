@@ -1,15 +1,32 @@
-<section class="panel">
-  <h2>Administración · Impactos comerciales</h2>
-  <table>
-    <thead><tr><th>Fecha</th><th>Módulo</th><th>Operación</th><th>Referencia</th><th>Monto</th></tr></thead>
-    <tbody>
-      <tr *ngFor="let i of impactos">
-        <td>{{ i.fechaOperacionUtc | date:'short' }}</td>
-        <td>{{ i.moduloOrigen }}</td>
-        <td>{{ i.tipoOperacion }}</td>
-        <td>{{ i.referenciaExterna }}</td>
-        <td>{{ i.monto | currency:'ARS' }}</td>
-      </tr>
-    </tbody>
-  </table>
+<app-page-header
+  breadcrumb="Administración / Impactos"
+  titulo="Impactos comerciales"
+  descripcion="Consolidado operativo con filtros y métricas"
+/>
+
+<section class="panel" *ngIf="!cargando; else loadingTpl">
+  <div class="kpis">
+    <app-tarjeta-kpi titulo="Registros" [valor]="impactosFiltrados.length.toString()" descripcion="Impactos en rango actual" />
+    <app-tarjeta-kpi titulo="Monto total" [valor]="(totalMonto | currency:'ARS')" descripcion="Suma de impactos filtrados" />
+  </div>
+
+  <app-filtros-barra [valor]="filtro" (valorChange)="filtro = $event" placeholder="Filtrar por módulo, operación o referencia" />
+
+  <div class="tabla-wrap" *ngIf="impactosFiltrados.length; else emptyTpl">
+    <table class="tabla-avanzada">
+      <thead><tr><th>Fecha</th><th>Módulo</th><th>Operación</th><th>Referencia</th><th>Monto</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let i of impactosFiltrados">
+          <td>{{ i.fechaOperacionUtc | date:'short' }}</td>
+          <td>{{ i.moduloOrigen }}</td>
+          <td>{{ i.tipoOperacion }}</td>
+          <td>{{ i.referenciaExterna }}</td>
+          <td>{{ i.monto | currency:'ARS' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </section>
+
+<ng-template #loadingTpl><app-loading-state texto="Cargando impactos administrativos..." /></ng-template>
+<ng-template #emptyTpl><app-empty-state titulo="Sin impactos" mensaje="No hay datos para los filtros aplicados." /></ng-template>

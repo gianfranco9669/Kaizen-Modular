@@ -1,0 +1,23 @@
+<app-page-header
+  breadcrumb="Gimnasio / Socios / Formulario"
+  [titulo]="idEdicion ? 'Editar socio' : 'Nuevo socio'"
+  descripcion="Alta y edición con validaciones visibles"
+/>
+
+<section class="panel">
+  <div class="alerta ok" *ngIf="exito">{{ exito }}</div>
+  <div class="alerta error" *ngIf="error">{{ error }}</div>
+
+  <form class="grilla" [formGroup]="formulario" (ngSubmit)="guardar()">
+    <label>Número socio<input formControlName="numeroSocio"></label>
+    <label>Nombre<input formControlName="nombre"></label>
+    <label>Apellido<input formControlName="apellido"></label>
+    <label>Documento<input formControlName="documento"></label>
+    <label>Correo<input formControlName="correo"></label>
+    <label>Teléfono<input formControlName="telefono"></label>
+    <div class="acciones-form">
+      <a routerLink="/gimnasio/socios">Cancelar</a>
+      <button type="submit" [disabled]="guardando">{{ guardando ? 'Guardando...' : 'Guardar' }}</button>
+    </div>
+  </form>
+</section>

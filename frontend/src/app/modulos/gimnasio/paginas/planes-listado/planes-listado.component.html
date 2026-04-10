@@ -1,0 +1,29 @@
+<app-page-header
+  breadcrumb="Gimnasio / Planes"
+  titulo="Planes"
+  descripcion="Gestión comercial con edición separada"
+  accionTexto="Nuevo plan"
+  accionRuta="/gimnasio/planes/nuevo"
+/>
+
+<section class="panel" *ngIf="!cargando; else loadingTpl">
+  <app-filtros-barra [valor]="filtro" (valorChange)="filtro = $event; pagina = 1" placeholder="Buscar plan" />
+
+  <app-tabla-avanzada [columnas]="['Nombre','Precio','Duración','Acceso','Acciones']" [filas]="paginados" [filaTemplate]="filaTpl">
+    <app-empty-state titulo="Sin planes" mensaje="No hay planes configurados." />
+  </app-tabla-avanzada>
+
+  <ng-template #filaTpl let-plan>
+    <td>{{ plan.nombre }}</td>
+    <td>{{ plan.precio | currency:'ARS' }}</td>
+    <td>{{ plan.duracionDias }} días</td>
+    <td><app-status-badge [texto]="plan.permiteAcceso ? 'Habilitado' : 'Bloqueado'" [tipo]="plan.permiteAcceso ? 'ok' : 'alerta'" /></td>
+    <td><a [routerLink]="['/gimnasio/planes', plan.id, 'editar']">Editar</a></td>
+  </ng-template>
+
+  <app-paginador [paginaActual]="pagina" [totalPaginas]="totalPaginas" (paginaChange)="pagina = $event" />
+</section>
+
+<ng-template #loadingTpl>
+  <app-loading-state texto="Cargando planes..." />
+</ng-template>

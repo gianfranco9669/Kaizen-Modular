@@ -2,7 +2,7 @@
   <aside class="sidebar">
     <div class="marca">
       <h1>ARDESOFT · Kaizen</h1>
-      <small>Plataforma modular</small>
+      <small>Plataforma modular premium</small>
     </div>
     <nav>
       <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Panel</a>
@@ -14,7 +14,19 @@
     </nav>
   </aside>
 
-  <main class="contenido">
-    <router-outlet></router-outlet>
-  </main>
+  <section class="main-shell">
+    <header class="topbar">
+      <div>
+        <strong>Breadcrumb:</strong> {{ breadcrumb }}
+      </div>
+      <div class="topbar-actions">
+        <button>Exportar</button>
+        <button class="primario">Nueva acción</button>
+      </div>
+    </header>
+
+    <main class="contenido">
+      <router-outlet></router-outlet>
+    </main>
+  </section>
 </div>
