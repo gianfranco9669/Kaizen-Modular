@@ -2,27 +2,30 @@
 
 **Objetivo:** entregar para revisión una copia del código que existe en la computadora, sin modificar el sistema.
 
-1. Descargar `REN_Paquete_Auditoria_Migracion_v03.zip` desde la conversación con ChatGPT.
-2. En el Explorador de Windows: clic derecho → **Extraer todo**.
-3. Comprobar que el proyecto de Kaizen esté en `C:\\Users\\Gianfranco\\Desktop\\Kaizen Modular` (o anotar su ubicación real).
-4. Abrir la carpeta descomprimida, escribir `powershell` en la barra de direcciones y pulsar Enter.
-5. Ejecutar (copiar el comando completo):
+## Ruta corta: script corregido (23/10/2026)
+
+1. Descargar [el recolector corregido](../scripts/REN_RECOLECTAR_CODIGO_SOLO_LECTURA.ps1) desde GitHub o el adjunto `REN_RECOLECTAR_CODIGO_SOLO_LECTURA_CORREGIDO.ps1` de la conversación.
+2. Copiar el archivo `.ps1` a `C:\Users\Gianfranco\Desktop\Kaizen Modular` (si el proyecto sigue en esa ruta).
+3. En el Explorador de Windows, abrir esa carpeta. Escribir `powershell` en la barra de direcciones y pulsar Enter.
+4. Si descargó el adjunto corregido, ejecutar:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File ".\REN_RECOLECTAR_CODIGO_SOLO_LECTURA_CORREGIDO.ps1"
+```
+
+5. Si descargó la versión de GitHub, ejecutar:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File ".\REN_RECOLECTAR_CODIGO_SOLO_LECTURA.ps1"
 ```
 
-6. Si el proyecto no está en la ruta predeterminada, indicar la ruta real:
+6. Si la carpeta del proyecto está en otra ruta, añadir `-ProjectPath "D:\Ruta\Real\Kaizen Modular"` al comando.
+7. Revisar el nuevo ZIP del Escritorio (`REN_Codigo_Actual_AAAAMMDD_HHMMSS.zip`) para verificar que no contenga claves, tokens, datos personales o contenido confidencial y enviarlo **privadamente** para la auditoría. Nunca subirlo a este repositorio público sin inspeccionarlo.
 
-```powershell
-powershell -ExecutionPolicy Bypass -File ".\REN_RECOLECTAR_CODIGO_SOLO_LECTURA.ps1" -ProjectPath "D:\Ruta\Real\Kaizen Modular"
-```
+### Error corregido
 
-7. En el Escritorio aparece `REN_Codigo_Actual_AAAAMMDD_HHMMSS.zip`.
-8. Antes de compartirlo, revisar que no haya claves, tokens, datos personales o contenido empresarial confidencial dentro de archivos de código. Enviarlo directamente a la conversación de auditoría, **no al repositorio público**.
+La primera versión arrojaba: `No se encuentra la propiedad 'Count' en este objeto` en el filtro `Where-Object` si solo coincidía un elemento. La versión corregida usa una colección forzada y no cambia archivos del proyecto.
 
-**El otro archivo SQL no se ejecuta todavía.** Se usará más adelante en una copia/usuario de solo lectura, después de verificar conexión y tablas.
+**No ejecutar todavía el SQL de auditoría** sin verificar base y permisos de lectura.
 
-Si PowerShell da un error de ruta, copiar el mensaje de error y verificar la carpeta principal. No mover ni borrar archivos del proyecto original.
-
-> La exclusión automática de `.env` y otros nombres sensibles no detecta secretos escritos directamente dentro de archivos de código.
+> El filtrado automático de nombres de archivo no garantiza que el código fuente esté libre de secretos escritos dentro de archivos permitidos.
