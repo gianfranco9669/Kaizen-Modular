@@ -2,6 +2,14 @@
 
 Registrar cada modificación funcional, cambio de datos o despliegue importante en el mismo PR.
 
+## 2026-10-23 — C2 PostgreSQL interrumpido y corregido (sin cambios productivos)
+
+- Ejecución local de Corte 2: precheck OK, restauración en base descartable OK, prueba EF detenida antes del inicio.
+- Error `no existe la relación __efmigrationshistory`: identificador `__EFMigrationsHistory` perdió las comillas al pasar por `psql -c` desde Windows PowerShell.
+- Informe del usuario confirma eliminación de la base temporal y ausencia de cambios en la original.
+- Se preparó **C2 corregido** enviando consultas SQL por stdin. Se endureció la prueba del rollback para exigir el error PostgreSQL específico y no cualquier excepción.
+- **Nueva ejecución pendiente**. No se proclama validación EF ni PostgreSQL hasta obtener `REN C2 OK`.
+
 ## 2026-10-23 — Corte 1 de desarrollo REN validado en staging
 
 - El usuario informó ejecución exitosa de Precheck, Stage y compilación Release de la solución .NET 10 en carpeta de staging separada.
