@@ -2,6 +2,14 @@
 
 Registrar cada modificación funcional, cambio de datos o despliegue importante en el mismo PR.
 
+## 2026-10-23 — C2 V3 valida migración EF; excepción al actualizar receta
+
+- El usuario ejecutó C2 V3: compilación correcta; restauración en base temporal; migración EF y cambio de 19 a 20 migraciones correctos; guardado sin cambios correcto.
+- Al actualizar el detalle de una receta, EF Core devolvió `DbUpdateConcurrencyException`. Por ello, **el C2 funcional permanece INCOMPLETO**. No se afirma causa exacta sin conocer entidad, estado y fila afectada.
+- El proceso eliminó la base temporal e informó que `kaizen_modular_dev` no fue alterada.
+- Preparado **C2 V4 de diagnóstico controlado**, exclusivamente del harness de staging: registra tipo de entidad EF afectada, estado, clave y existencia en base temporal, sin secretos. V4 no ejecutado todavía.
+- No se modifica lógica productiva en respuesta a un error cuyo origen no está comprobado.
+
 ## 2026-10-23 — C2 detenido en compilación de harness, corrección V3
 
 - El usuario confirmó restauración OK del backup en una base temporal y posterior fallo de compilación del test EF: CS8602 en `Program.cs:17`, desreferencia posible de `NpgsqlConnectionStringBuilder.Database` (nullable).
