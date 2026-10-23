@@ -2,6 +2,16 @@
 
 Registrar cada modificación funcional, cambio de datos o despliegue importante en el mismo PR.
 
+## 2026-10-23 — C3-A desarrollado en copia aislada; validación local pendiente
+
+- Se recibió el menú comercial actualizado de REN (4 páginas) y el recetario integrado v0.2 (13 páginas).
+- El nuevo menú fija un precio único de rolls premium; se revisaron 34 preparaciones/combinados y siete composiciones con prorrateo por piezas.
+- Se detectaron diferencias sustantivas entre ambas fuentes en nombres/rellenos, ciertas presentaciones y extras. Las decisiones se mantienen sin aplicar.
+- Se preparó **código C3-A exclusivo de staging**, con entidades EF de configuración/composición opt-in, migración propuesta, resolvedor único de requerimientos por pedido y smoke de lógica.
+- Se verificaron huellas de archivo, integridad del paquete, 12 controles estructurales y compatibilidad de parche `git apply --check`.
+- **Compilación .NET 10, prueba real de migración C3 y pruebas operativas pendientes.** No se ejecutó SQL, no se aplicó al proyecto original ni se activó stock.
+- No se publicó código empresarial ni se guardaron secretos en este repositorio público.
+
 ## 2026-10-23 — C2 V5 aprobado en PostgreSQL aislado; C3 especificado
 
 - Informe local del usuario: `REN C2 OK`, `tests_ef_aprobados = true`, base temporal creada y eliminada, base original no modificada.
