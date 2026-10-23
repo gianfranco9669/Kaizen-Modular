@@ -2,6 +2,15 @@
 
 Registrar cada modificación funcional, cambio de datos o despliegue importante en el mismo PR.
 
+## 2026-10-23 — C2 V4 localiza UPDATE indebido; corrección V5 preparada
+
+- El diagnóstico V4 encontró `DbUpdateConcurrencyException` en `RecetaItem`: estado EF `Modified` para un identificador inexistente en la base temporal.
+- Análisis del código confirmó que la sustitución de elementos mediante navegación de EF estaba intentando actualizar registros nuevos con GUID preasignado.
+- Se preparó un parche V5 **solo para staging**: actualizar los ingredientes existentes conservando sus IDs, insertar explícitamente los nuevos y eliminar únicamente los retirados.
+- Se añadió una verificación en el smoke test para comprobar preservación de los IDs de ingredientes tras modificar cantidades.
+- Integridad estática del paquete y hashes del origen C1 verificados. **Build V5 y smoke EF/DB pendientes de ejecución local**.
+- Informe V4 confirmó eliminación de la base temporal y ausencia de modificaciones en `kaizen_modular_dev`. Migración productiva NO autorizada.
+
 ## 2026-10-23 — C2 V3 valida migración EF; excepción al actualizar receta
 
 - El usuario ejecutó C2 V3: compilación correcta; restauración en base temporal; migración EF y cambio de 19 a 20 migraciones correctos; guardado sin cambios correcto.
