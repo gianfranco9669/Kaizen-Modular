@@ -1,0 +1,49 @@
+# Datos sensibles: evitar publicarlos, incluso en repositorios privados
+.env
+.env.*
+!.env.example
+!.env.ejemplo
+**/appsettings.Development.json
+**/appsettings.Production.json
+**/appsettings.Local.json
+**/appsettings.local.json
+**/secrets.json
+**/credentials.json
+**/*credentials*.json
+**/*secret*.json
+**/*private-key*
+**/*private_key*
+**/*.pem
+**/*.pfx
+**/*.key
+**/id_rsa*
+**/id_ed25519*
+# Respaldos, volcados, datos y archivos generados
+*.bak
+*.backup
+*.dump
+*.sqlite
+*.sqlite3
+*.db
+*.sql.gz
+*.zip
+*.7z
+*.rar
+*.log
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+# .NET
+**/bin/
+**/obj/
+.vs/
+# Node / Angular
+**/node_modules/
+**/dist/
+**/.angular/
+**/coverage/
+# IDE/temporales
+.idea/
+.vscode/
+# IMPORTANTE: .gitignore no bloquea archivos ya trackeados ni secretos en código fuente.

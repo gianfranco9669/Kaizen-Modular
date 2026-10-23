@@ -1,0 +1,32 @@
+name: Documentacion obligatoria
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  cambios-documentados:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Descargar repositorio e historial
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verificar CHANGELOG junto a cambios del codigo
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          git fetch origin "${BASE_REF}" --depth=1
+          DIFF="$(git diff --name-only "origin/${BASE_REF}...HEAD")"
+          echo "Archivos modificados:"
+          echo "${DIFF}"
+          if echo "${DIFF}" | grep -Eq '^(backend/|frontend/|src/|infraestructura/|tests/|scripts/)'; then
+            if ! echo "${DIFF}" | grep -qx 'docs/CHANGELOG.md'; then
+              echo "::error::Un cambio de codigo/infraestructura debe actualizar docs/CHANGELOG.md"
+              exit 1
+            fi
+          fi
+          echo "Control documental completado."
