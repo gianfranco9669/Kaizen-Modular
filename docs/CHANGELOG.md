@@ -2,6 +2,15 @@
 
 Registrar cada modificación funcional, cambio de datos o despliegue importante en el mismo PR.
 
+## 2026-10-23 — C3-A compiló y 13 smoke tests pasaron; C3-B pendiente
+
+- El usuario ejecutó C3-A en Windows y confirmó `PRECHECK OK`, `STAGING OK`, build completo Release .NET 10 y `13/13` smoke tests aprobados.
+- Entre los escenarios validados están prorrateo 5/8 y 4/8, exclusión de receta plana al habilitar componentes, multiplicación y acumulación, más rechazos de composiciones inválidas.
+- Se preparó un **paquete C3-B** para probar EF y PostgreSQL solo en base temporal: requiere backup identificado por SHA-256, valida C3-A, compila antes de acceder a PostgreSQL y rechaza destinos no temporales.
+- C3-B **no se ha ejecutado aún**. No hay pruebas completas de API, Rappi, ampliaciones ni reintegro por cancelación.
+- La base `kaizen_modular_dev` y el código local original no recibieron cambios por estas pruebas. Producción permanece bloqueada.
+- No se publicaron scripts ni datos comerciales sensibles en el repositorio público.
+
 ## 2026-10-23 — C3-A desarrollado en copia aislada; validación local pendiente
 
 - Se recibió el menú comercial actualizado de REN (4 páginas) y el recetario integrado v0.2 (13 páginas).
