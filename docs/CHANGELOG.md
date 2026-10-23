@@ -2,6 +2,14 @@
 
 Registrar cada modificación funcional, cambio de datos o despliegue importante en el mismo PR.
 
+## 2026-10-23 — C2 detenido en compilación de harness, corrección V3
+
+- El usuario confirmó restauración OK del backup en una base temporal y posterior fallo de compilación del test EF: CS8602 en `Program.cs:17`, desreferencia posible de `NpgsqlConnectionStringBuilder.Database` (nullable).
+- La prueba no llegó a ejecutar migración EF. El reporte confirma eliminación de la base temporal, sin afectar la base original.
+- Se preparó **C2 V3** con chequeo explícito de Database y compilación previa al acceso PostgreSQL.
+- El script solo puede reemplazar el `Program.cs` del test de staging con huella conocida; ningún archivo del proyecto original se modifica.
+- **V3 sin ejecutar todavía**: aprobación EF/DB pendiente de nuevo resultado real.
+
 ## 2026-10-23 — C2 PostgreSQL interrumpido y corregido (sin cambios productivos)
 
 - Ejecución local de Corte 2: precheck OK, restauración en base descartable OK, prueba EF detenida antes del inicio.
