@@ -2,6 +2,13 @@
 
 Registrar cada modificación funcional, cambio de datos o despliegue importante en el mismo PR.
 
+## 2026-10-23 — Corte 1 de desarrollo REN validado en staging
+
+- El usuario informó ejecución exitosa de Precheck, Stage y compilación Release de la solución .NET 10 en carpeta de staging separada.
+- Smoke test de cálculo de combinados aprobado (5/5): 5/8, 4/8, redondeo al final y fallos seguros.
+- Preparación de Corte 2: test de migración EF, CRUD de revisiones y rechazo de Down destructivo sobre base PostgreSQL descartable. **Pendiente ejecución y resultados en Windows**.
+- No se ha desplegado ni aplicado migración en la base original; Git local sin tocar; código empresarial no publicado.
+
 ## 2026-10-23 — Conciliación de carta contra PostgreSQL local
 
 - Se recibió y analizó el inventario SQL generado por la auditoría de solo lectura.
