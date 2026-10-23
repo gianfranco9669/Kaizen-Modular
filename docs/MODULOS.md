@@ -1,19 +1,28 @@
-# Módulos y criterios de aceptación
+# Módulos inspeccionados y criterios de aceptación
 
-Estado general: **inventario por verificar contra la instalación actual**.
+Revisión estática del código local del 23/10/2026. Ningún ítem se considera probado en ejecución.
 
-| Módulo | Verificaciones requeridas |
-| --- | --- |
-| Catálogo | Un producto único por referencia vigente; precios/categorías/SKU correctos |
-| Recetas | Versiones vigentes, unidades y rendimientos; pendientes explícitos |
-| Ingredientes | Conversión g↔kg, ml↔lt; insumos equivalentes sin duplicidad |
-| Cocina | Preparación, extras, observaciones, cambio de estados |
-| Pedidos | Venta completa, modificación, reintento, cancelación |
-| Stock | Descuento único y verificable con auditoría y reversión |
-| Combinados | Prorrateo por número de piezas; nigiris por unidad |
-| Poke a medida | Sustitución de bases y toppings sin doble descuento |
-| Caja | Precios, adicionales, delivery y pagos |
-| Integraciones | SKU externos, modificadores, sincronización |
-| Administración | Reportes de costo/margen e historial |
+| Módulo | Funcionalidad presente | Necesidad antes del recetario REN |
+| --- | --- | --- |
+| Catálogo | Productos, categorías y SKU | Conciliar nuevo menú, precios e IDs sin romper historial |
+| Recetas | Guardar/listar receta por producto | Versiones históricas; receta compuesta; controlar incompletos |
+| Insumos | Unidad, costo, stock y mínimos | Normalizar unidades, alias, ingredientes faltantes |
+| Stock | Movimientos, semáforo, stock flexible | Elaboraciones/lotes, consumos de salsas por pedido |
+| Pedidos | Idempotencia, estados, ampliaciones | Combinados y personalizaciones con cantidades efectivas |
+| Cocina/KDS | Estados y rondas | Probar cambios de comanda, parcialidades y nuevas recetas |
+| Caja | Apertura, cobros, movimientos y cierres | Precio delivery, reporte por canal y reconciliación |
+| Administración | Compras, gastos, tesorería, comprobantes y reportes | Historizar costos y precios |
+| Rappi | SKU, modificadores, importación y sincronización | Simular antes de publicar catálogo actualizado |
+| Gimnasio | Entidades, controllers y pantallas propias | Queda fuera de esta migración |
+| Seguridad | Cookies, permisos, CSRF y rate limiting | Revisar configuración de despliegue y secretos |
 
-Las validaciones concretas deben convertirse en tests cuando se identifique el código y la base actual.
+## Pruebas gastronómicas requeridas
+
+- New York y Buenos Aires con ingredientes corregidos; cada roll 8 piezas y 120 g de arroz preparado.
+- Combinados: cantidades de 4/8 o 5/8 por roll; nigiris/sashimi por pieza.
+- Tazita de 40 g a nivel de pedido; dos rolls no multiplican automáticamente la salsa.
+- Arroz cocido/preparado: lotes y rendimiento real sin doble consumo.
+- Poke configurable: elección y reemplazo de bases y toppings; evitar doble descuento.
+- Masarikado: 124 g **totales** de salmón; no duplicar cobertura.
+- Pedido, ampliación, cancelación e importación Rappi idempotentes.
+- Stock no inicializado y stock negativo: controles visibles.

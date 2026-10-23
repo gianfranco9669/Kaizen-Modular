@@ -1,38 +1,34 @@
-# Migración de recetario REN — plan previo
+# Migración del recetario REN — plan validado contra el código local
 
-**Estado: SIN EJECUTAR.** No se han alterado productos, recetas ni stock del sistema real.
+**Estado:** propuesta de migración; SIN EJECUTAR en base de datos.
 
-## Fuentes
+## Datos de cocina y catálogo
 
-1. Relevamiento presencial de cocina del 23/10/2026: fuente prioritaria para gramajes y componentes.
-2. Menú comercial REN: aporta productos, presentaciones, coberturas, complementos y precios.
-3. Archivo integrado y manifest JSON de auditoría: materiales de trabajo **no publicados aquí** mientras el repositorio sea público.
+El manifest de trabajo contiene **27 preparaciones individuales y 7 combinados**. 15 preparaciones tienen al menos un ingrediente sin cantidad informada. El manifiesto no es equivalente a recetas 100% operativas.
 
-## Reglas validadas
+Reglas: roll de 8 piezas, 120 g de arroz preparado; proteína estándar 60 g cuando aplique; Finlandia y palta 30 g sólo en recetas que los llevan salvo excepciones; Buenos Aires clásico = salmón/palta, New York = salmón/queso crema; Masarikado = 124 g salmón total; acompañamientos de 40 g por pedido; envío $3.000 como cargo.
 
-- Rolls de 8 piezas: 120 g de arroz **preparado** por roll; proteína estándar 60 g donde corresponda.
-- Queso crema Finlandia y palta: 30 g **solo cuando son ingredientes del roll**, salvo excepciones.
-- Buenos Aires clásico: salmón y palta. New York clásico: salmón y queso crema. Uramaki Buenos Aires premium es otro producto.
-- Uramaki Masarikado: 124 g totales de salmón, sumando relleno y cobertura.
-- Acompañamientos: tazitas de salsa de 40 g que se entregan **por pedido**, no por roll; wasabi 10 g por porción.
-- Envío: $3.000, concepto comercial, no consumo de insumo.
-- En los combinados, usar proporción 5/8 o 4/8 por roll, nigiri y sashimi por unidad.
+## Hallazgos de arquitectura
 
-## Bloqueantes de exactitud
+- `RecetaProducto` contiene únicamente insumos directos.
+- El motor de consumo obtiene la receta activa por ítem comercial, sin una expansión visible de componentes de combinados.
+- `GastronomiaRepositorio.GuardarRecetaAsync` reemplaza los items existentes y no guarda versiones históricas.
+- Los movimientos de egreso referencian pedidos, y las cancelaciones reintegran los **movimientos originales**; conservar esta propiedad.
+- `StockInicializado == false` hace que el insumo no registre consumo. Con stock inicializado puede quedar saldo negativo.
+- Los modificadores suman líneas/productos; deben probarse sustituciones de Pokes para evitar sumas duplicadas.
 
-- Faltan pesos de algunos ingredientes y de subpreparaciones, por ejemplo rebozados, salsas y rendimiento de arroz preparado.
-- Confirmar la composición futura de Nigiri Mix y las diferencias del Poke Veggie.
-- Confirmar si salsa de ostras del Harumaki Veggie es realmente vegetal.
-- No establecer en cero silenciosamente ingredientes sin cantidad.
+## Orden seguro
 
-## Proceso previsto
+1. **Privatizar GitHub y sanear código** antes de subirlo.
+2. Publicar la copia correcta en una rama baseline, con README, migraciones, scripts válidos, CI y documentación; sin secrets/backups/dependencias.
+3. Auditoría de tablas PostgreSQL actuales en solo lectura y conciliación ID/SKU.
+4. Crear versiones de recetas y componentes de recetas, elaboraciones y acompañamientos por pedido.
+5. Importador idempotente con modo dry run y reporte de diferencias.
+6. Tests sobre restore desechable; verificar Rappi, caja y administración.
+7. Aplicación controlada a producción y CHANGELOG.
 
-1. Exportación actual de solo lectura.
-2. Respaldo probado, aislamiento de datos y mapeo de IDs/SKU.
-3. Comparativa producto → receta → insumo → stock.
-4. Migración versionada e idempotente en copia de pruebas.
-5. Tests de venta, combinados, tazitas por pedido y cancelación.
-6. Aplicación controlada y verificación posmigración.
-7. Actualización documental y anotación del despliegue en CHANGELOG.
+## Fuera de alcance actual
 
-Nunca borrar historial de pedidos ni reutilizar un SKU que refiera a otro producto.
+No se ha comparado la base activa, no se ha compilado ni probado la API; no se han modificado productos, recetas ni stock.
+
+**Precaución:** scripts históricos de carta/limpieza contienen operaciones SQL que escriben/eliminan; no ejecutarlos en producción.

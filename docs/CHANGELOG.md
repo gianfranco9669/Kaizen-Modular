@@ -1,22 +1,23 @@
 # Historial de cambios
 
-Todas las modificaciones funcionales, cambios de datos y despliegues importantes deben registrarse aquí, idealmente en el mismo Pull Request.
+Registrar cada modificación funcional, cambio de datos o despliegue importante en el mismo PR.
+
+## 2026-10-23 — Auditoría de la copia real y documentación técnica
+
+- Se cotejó la copia completa de Kaizen Modular con la salida del recolector.
+- Se verificó el stack real: .NET 10, PostgreSQL/EF Core, Angular 22.1 y módulos de gastronomía/administración/gimnasio.
+- Se documentaron riesgos de recetas planas, sobrescritura del detalle, combinados, elaboración de arroz, salsas por pedido y stock flexible.
+- Se actualizan `ESTADO`, `ARQUITECTURA`, `MODULOS`, `MIGRACION_REN` y `SEGURIDAD_GITHUB`.
+- **No se publicó código empresarial ni se modificaron bases de datos o producción.**
 
 ## 2026-10-23 — Corrección del recolector PowerShell REN
 
-- **Problema:** el recolector original fallaba en PowerShell con StrictMode al consultar `.Count` sobre un resultado individual de `Where-Object`.
-- **Cambio:** se fuerza el resultado a colección mediante `@(...)`, se muestra la carpeta inspeccionada y se detecta una extracción sin archivos.
-- **Archivos:** `scripts/REN_RECOLECTAR_CODIGO_SOLO_LECTURA.ps1` y `docs/GUIA_WINDOWS.md`.
-- **Impacto:** solo herramienta local de auditoría; no se cambió código aplicativo, base de datos ni sistema productivo.
-- **Verificación:** inspección estática del script; ejecución en Windows pendiente de la prueba del usuario.
+- Se corrige el error de `.Count` en StrictMode mediante una colección forzada.
+- El recolector y guía se actualizaron. Pendiente validar ejecución en Windows.
 
 ## 2026-10-23 — Inicio de documentación y preparación de migración
 
-- Se crea estructura documental para migrar el proyecto local a GitHub de forma controlada.
-- Se agrega control de actualización de documentación en Pull Requests.
-- Se describe el plan de auditoría de productos, recetas, inventario e integraciones de REN.
-- **Sin modificaciones al código productivo ni a la base actual.**
-- **Pendiente:** recibir y cotejar el código local vigente.
+- Creación de estructura documental y control de documentación en Pull Requests.
 
 ## Plantilla para próximas entradas
 

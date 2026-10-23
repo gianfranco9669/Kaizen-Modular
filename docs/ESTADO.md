@@ -1,28 +1,35 @@
-# Estado del proyecto y fuentes
+# Estado verificado del proyecto — 23/10/2026
 
-Fecha de apertura de esta documentación: **23/10/2026**.
+**Fuente:** inspección estática de los ZIP de la conversación: `Kaizen Modular(5).zip` (carpeta completa) y `REN_Codigo_Actual_20261023_092128.zip` (recolector). **No se modificó producción ni se leyó la PostgreSQL activa.**
 
-## Confirmado
+## Código local confirmado
 
-- Hay un sistema Kaizen Modular utilizado para gastronomía, administración y otros módulos.
-- El código que se ejecuta en la instalación vigente **todavía no fue cotejado** con este repositorio.
-- Existe una exportación de estructura y datos de prueba/desarrollo de agosto de 2026, **histórica, no representativa de producción actual**.
-- Se cuenta con un menú comercial REN y un relevamiento presencial de recetas, con pendientes que impiden dar por completos todos los consumos.
+- .NET 10 / ASP.NET Core, Entity Framework Core y PostgreSQL.
+- Angular 22.1 y TypeScript; el README del proyecto pide Node 24.15+.
+- Separación API, Aplicación, Dominio e Infraestructura; despliegue previsto con Docker/Caddy.
+- Módulos implementados en código: Gastronomía, Administración, Economía, Gimnasio, Seguridad y Rappi.
+- Control de pedidos por idempotencia y transacciones, cocina, caja, KDS, mesas, inventario y recetas.
+- Hay scripts de pruebas y respaldo que no fueron ejecutados en esta auditoría.
 
-## Por verificar cuando llegue el código actual
+## Estado del repositorio GitHub
 
-- Backend y frontend exactos, versiones, ubicación y método de despliegue.
-- Base/s de datos, migraciones y tablas realmente utilizadas.
-- Circuitos de pedidos, cancelaciones, stock, cocina, caja e integración externa.
-- Mecanismo de descuentos, modificadores, recetas activas e historización.
-- Tests, configuración, respaldos y logs.
+Este repositorio contiene **documentación y herramientas iniciales**, pero **todavía no la copia del código productivo**. El repo es público. Antes de subir el código de la empresa hay que ponerlo privado, sanear credenciales y excluir node_modules, bin/obj, parches, copias y backups.
 
-## Objetivo inmediato
+## Riesgos principales del recetario
 
-1. Obtener copia sanitizada del código vigente y exportación estructural de solo lectura.
-2. Confrontar base actual con manifest del recetario nuevo.
-3. Diseñar migración con respaldo, pruebas e idempotencia.
-4. Incorporar al repositorio el código auditado, sin credenciales ni información privada.
-5. Mantener documentación y CHANGELOG en cada modificación.
+1. Motor de recetas basado en lista plana de insumos; los combinados requieren componentes proporcionales.
+2. Guardar receta existente reemplaza sus items sin un historial de versiones.
+3. Parte de las recetas tienen gramajes incompletos.
+4. Acompañamientos/salsas deben descontarse por pedido, no por cada roll.
+5. Arroz preparado necesita elaboración y rendimiento por lote.
+6. El consumo omite insumos sin stock inicializado y permite negativos en inicializados.
 
-**No publicar recetas completas ni datos de clientes en este repositorio público sin autorización.**
+## Faltante para validación final
+
+- Estructura y estado actual de PostgreSQL (consulta de **solo lectura**).
+- Build y tests con .NET 10, Node 24 y PostgreSQL descartable.
+- Validación operativa de pantallas y flujo de pedidos/caja/stock.
+- Comprobación de secretos y externalización de configuraciones.
+- Cierre de gramajes faltantes con cocina.
+
+**Fuente histórica secundaria:** exportación de `kaizen_modular_dev` del 12/08/2026; no equivale al estado actual.
