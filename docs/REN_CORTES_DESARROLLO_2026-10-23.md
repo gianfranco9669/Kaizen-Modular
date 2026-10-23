@@ -20,3 +20,17 @@ No se ejecutaron migraciones, SQL ni cambios productivos con estos pasos.
 - Composición por receta de combinados y preparado de arroz.
 - Gramajes pendientes, costos, nuevos precios y conteo físico.
 - Prohibido sincronizar código empresarial a repositorio público.
+## Actualización C2 V5 — 23/10/2026, 15:22 hora Argentina
+
+**C2 APROBADO** por ejecución de usuario: restore en base temporal, EF migración de 19 a 20, pruebas de revisiones/identidades/idempotencia/Down, limpieza de temporal; no aplicó en base original.
+
+### Preparación de Corte 3 (sin ejecución productiva)
+
+- Reutilizar el método de descuentos llamado por tres rutas (pedido, ampliación y pedido externo), para centralizar el cálculo de ingredientes de combinados.
+- La composición de combinados debe ser exclusiva frente a receta plana, y fallar si faltan piezas, IDs o recetas.
+- Cancelación debe seguir usando los movimientos originales, no recetas actualizadas.
+- 85 insumos con `StockInicializado=false` requieren conteo físico antes de un stock productivo confiable.
+- Separar solicitudes web pendientes de confirmación de comandas operativas.
+- **No existe prueba funcional C3 aprobada, ni despliegue**.
+
+Los documentos privados de análisis, gramajes, SKU y costos no se publican en este repositorio público.

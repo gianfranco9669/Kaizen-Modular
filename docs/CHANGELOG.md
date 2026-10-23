@@ -2,6 +2,14 @@
 
 Registrar cada modificación funcional, cambio de datos o despliegue importante en el mismo PR.
 
+## 2026-10-23 — C2 V5 aprobado en PostgreSQL aislado; C3 especificado
+
+- Informe local del usuario: `REN C2 OK`, `tests_ef_aprobados = true`, base temporal creada y eliminada, base original no modificada.
+- La ejecución confirmó: migración EF 19→20, revisiones antes/después, reintentos idempotentes, preservación de IDs de recetas e ingredientes y bloqueo del Down con historial.
+- Se completó análisis estático de integración de combinados/stock: pedidos normales, ampliaciones y Rappi reutilizan un mismo método de descuento; la cancelación reintegra por movimientos históricos.
+- Corte 3: plan de persistencia de componentes, activación controlada sin doble consumo y matriz de 28 escenarios. **Solo especificación; implementación y pruebas C3 pendientes**.
+- Ningún parche de C2/C3 fue aplicado al proyecto original ni a la base local activa. No se publicó código empresarial.
+
 ## 2026-10-23 — C2 V4 localiza UPDATE indebido; corrección V5 preparada
 
 - El diagnóstico V4 encontró `DbUpdateConcurrencyException` en `RecetaItem`: estado EF `Modified` para un identificador inexistente en la base temporal.
